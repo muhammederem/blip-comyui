@@ -1,23 +1,31 @@
-from .blip import Blip
+import numpy as np
+import torch
+from blip import Blip
 
 
-class BlipNode:
+       
+class PrintHelloWorld:     
 
     @classmethod
     def INPUT_TYPES(cls):
-        return { "required" : {
-            "image_path": ("STRING", {"multiline": False, "default": "image.jpg"}),
-            "question": ("STRING", {"multiline": False, "default": "image.jpg"})
-        },
-       }
+               
+        return {"required": {       
+                    "image_path": ("STRING", {"multiline": False, "default": "Hello World"}),
+                    }
+                }
 
-
-    RETURN_TYPES = ("STRING")
-    FUNCTION = "process"
+    RETURN_TYPES = ()
+    FUNCTION = "print_text"
     OUTPUT_NODE = True
-    CATEGORY = "Blip"
+    CATEGORY = "🧩 Tutorial Nodes"
 
-    def process(self, image_path, question):
+    def print_text(self, text):
+
+        print(f"Tutorial Text : {text}")
+        
+        return {}
+
+    def process(self, image_path, question="What is the color of dog?"):
         blip = Blip()
         answers =blip.ask(image_path, question)
         
