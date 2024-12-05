@@ -1,4 +1,4 @@
-from .nodes.blip_node import *
+from .blip_node import *
 
 NODE_CLASS_MAPPINGS = { 
     "Blip Node": BlipNode,
