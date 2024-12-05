@@ -1,5 +1,5 @@
 from PIL import Image
-from services.blip import Blip
+from .services.blip import Blip
 
 
 class BlipNode:
