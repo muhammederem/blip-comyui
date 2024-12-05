@@ -1,4 +1,3 @@
-from PIL import Image
 from .services.blip import Blip
 
 
@@ -22,9 +21,9 @@ class BlipNode:
             "question-10": ("STRING", {"multiline": False, "default": "image.jpg"})        }
         }
 
-    RETURN_TYPES = {"LIST"}
+    RETURN_TYPES = ("LIST")
     FUCNTION = "process"
-    OUTPUT_NODE = "output_node"
+    OUTPUT_NODE = "True"
     CATEGORY = "Blip"
 
     def process(self, image_path, question, question_2=None, question_3=None, question_4=None, 
