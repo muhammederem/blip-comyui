@@ -5,7 +5,7 @@ from .services.blip import Blip
 class BlipNode:
 
     @classmethod
-    def INPUTTYPES(cls):
+    def INPUT_TYPES(cls):
         return { "required" : {
             "image_path": ("image", {"multiline": False, "default": "image.jpg"}),
             "question": ("STRING", {"multiline": False, "default": "image.jpg"})
