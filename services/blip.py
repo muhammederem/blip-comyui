@@ -42,24 +42,24 @@ class Blip:
         # Decode and return the answer
         return self.processor.decode(out[0], skip_special_tokens=True)
     
-#test the model with more than one question and image and chech the time taken to answer the question and caching 
-image_path = "/home/erem/Documents/muhammet-faruk-erem/blip-comyui/car.webp"
-questions = [
-    "What is the color of the car?",
-    "How many cars are in the image?",
-    "What is the model of the car?"
-]
-s = time.time()
-blip1 = Blip()
-print("time taken to initialize the model: ", time.time() - s)
-s = time.time()
-blip2 = Blip()
-print("time taken to initialize the model: ", time.time() - s)
-s = time.time()
-blip3 = Blip()
-print("time taken to initialize the model: ", time.time() - s)
-for question in questions:
-    s = time.time()
-    blip = Blip()
-    print(blip.ask(image_path, question))
-    print(f"Time taken: {time.time() - s:.2f} seconds")
+# #test the model with more than one question and image and chech the time taken to answer the question and caching 
+# image_path = "/home/erem/Documents/muhammet-faruk-erem/blip-comyui/car.webp"
+# questions = [
+#     "What is the color of the car?",
+#     "How many cars are in the image?",
+#     "What is the model of the car?"
+# ]
+# s = time.time()
+# blip1 = Blip()
+# print("time taken to initialize the model: ", time.time() - s)
+# s = time.time()
+# blip2 = Blip()
+# print("time taken to initialize the model: ", time.time() - s)
+# s = time.time()
+# blip3 = Blip()
+# print("time taken to initialize the model: ", time.time() - s)
+# for question in questions:
+#     s = time.time()
+#     blip = Blip()
+#     print(blip.ask(image_path, question))
+#     print(f"Time taken: {time.time() - s:.2f} seconds")
