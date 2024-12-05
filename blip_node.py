@@ -22,7 +22,7 @@ class BlipNode:
         }
 
     RETURN_TYPES = ("LIST")
-    FUCNTION = "process"
+    FUNCTION = "process"
     OUTPUT_NODE = "True"
     CATEGORY = "Blip"
 
