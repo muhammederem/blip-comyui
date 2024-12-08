@@ -94,7 +94,7 @@ class StringPairDisplayNode:
     RETURN_TYPES = ("STRING",)  # Outputs a single formatted string
     FUNCTION = "process"
     OUTPUT_NODE = True  # Terminal node
-    CATEGORY = "Utilities"
+    CATEGORY = "Blip"
 
     def process(self, string_pairs):
         """
