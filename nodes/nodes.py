@@ -79,3 +79,30 @@ class BlipDisplayNode:
         formatted_output = "\n\n".join(qa_pairs)
 
         return image, formatted_output
+
+
+class StringPairDisplayNode:
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "string_pairs": ("LIST_STRING", {"multiline": True}),  # List of question-answer pairs
+            }
+        }
+
+    RETURN_TYPES = ("STRING",)  # Outputs a single formatted string
+    FUNCTION = "process"
+    OUTPUT_NODE = True  # Terminal node
+    CATEGORY = "Utilities"
+
+    def process(self, string_pairs):
+        """
+        Display a formatted version of string pairs.
+
+        :param string_pairs: List of strings where each contains a question-answer pair.
+        :return: A single formatted string combining all pairs.
+        """
+        # Format the question-answer pairs for better readability
+        formatted_output = "\n\n".join(string_pairs)
+        return (formatted_output,)
