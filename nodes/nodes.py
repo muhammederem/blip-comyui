@@ -1,6 +1,6 @@
 from ..blip import Blip  # Import the BLIP model
 
-class BlipCustomNode:
+class BlipNode:
 
     @classmethod
     def INPUT_TYPES(cls):
