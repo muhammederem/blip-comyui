@@ -1,60 +1,81 @@
 from ..blip import Blip  # Import the BLIP model
 
-class BlipNode:
+class BlipProcessorNode:
 
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE", {"multiline": False}),  # Required image input
-                "question": ("STRING", {"multiline": False, "default": "What is in the image?"}),  # Required main question
+                "image": ("IMAGE", {"multiline": False}),  # Input image
+                "question": ("STRING", {"multiline": False, "default": "What is in the image?"}),  # Mandatory question
             },
             "optional": {
-                "question_1": ("STRING", {"multiline": False, "default": ""}),
-                "question_2": ("STRING", {"multiline": False, "default": ""}),
-                "question_3": ("STRING", {"multiline": False, "default": ""}),
-                "question_4": ("STRING", {"multiline": False, "default": ""}),
-                "question_5": ("STRING", {"multiline": False, "default": ""}),
-                "question_6": ("STRING", {"multiline": False, "default": ""}),
-                "question_7": ("STRING", {"multiline": False, "default": ""}),
-                "question_8": ("STRING", {"multiline": False, "default": ""}),
-                "question_9": ("STRING", {"multiline": False, "default": ""}),
+                **{
+                    f"question_{i}": ("STRING", {"multiline": False, "default": ""})
+                    for i in range(1, 10)  # Dynamically generate optional questions
+                }
             },
         }
 
-    RETURN_TYPES = ("LIST_STRING",)  # Return a list of answers as strings
+    RETURN_TYPES = ("LIST_STRING",)  # Output is a list of question-answer pairs
     FUNCTION = "process"
-    OUTPUT_NODE = True
+    OUTPUT_NODE = False  # Not a terminal node
     CATEGORY = "Blip"
 
-    def process(self, image, question, question_1=None, question_2=None, question_3=None, question_4=None,
-                question_5=None, question_6=None, question_7=None, question_8=None, question_9=None):
+    def process(self, image, question, **kwargs):
         """
-        Process the image with the BLIP model and answer the questions.
+        Process the image and questions, returning question-answer pairs.
 
-        :param image: Input image (provided by ComfyUI).
-        :param question: The main required question to ask.
-        :param question_1 to question_9: Optional additional questions (maximum 9).
-        :return: A list of answers to all provided questions.
+        :param image: Input image.
+        :param question: Mandatory question.
+        :param kwargs: Optional questions (question_1 to question_9).
+        :return: List of question-answer pairs as strings.
         """
-        # Initialize the BLIP model (GPU or CPU usage can be adjusted inside the model)
+        # Initialize BLIP model
         blip = Blip()
 
-        # Collect all questions, starting with the required one
-        questions = [question]  # Include the mandatory question
-        optional_questions = [question_1, question_2, question_3, question_4, question_5, 
-                              question_6, question_7, question_8, question_9]
+        # Gather all questions
+        questions = [question]
+        optional_questions = [kwargs[f"question_{i}"] for i in range(1, 10) if kwargs.get(f"question_{i}", "").strip()]
+        questions.extend(optional_questions)
 
-        # Add non-empty optional questions to the list
-        for q in optional_questions:
-            if q and q.strip():  # Ignore empty or whitespace-only questions
-                questions.append(q.strip())
+        # Limit to maximum of 10 questions
+        questions = questions[:10]
 
-        # Ensure the total question count does not exceed 10
-        if len(questions) > 10:
-            questions = questions[:10]
+        # Generate question-answer pairs
+        question_answer_pairs = []
+        for q in questions:
+            answer = blip.ask(image, q)
+            question_answer_pairs.append(f"Q: {q}\nA: {answer}")
 
-        # Answer each question using the BLIP model
-        answers = [blip.ask(image, q) for q in questions]
+        return (question_answer_pairs,)
 
-        return answers  # Return the list of answers
+
+class BlipDisplayNode:
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "image": ("IMAGE", {"multiline": False}),  # Input image
+                "qa_pairs": ("LIST_STRING", {"multiline": True}),  # Question-answer pairs from the processor node
+            }
+        }
+
+    RETURN_TYPES = ("IMAGE", "STRING")  # Output includes the image and formatted QA text
+    FUNCTION = "process"
+    OUTPUT_NODE = True  # Terminal node
+    CATEGORY = "Blip"
+
+    def process(self, image, qa_pairs):
+        """
+        Display the image and formatted QA pairs.
+
+        :param image: Input image.
+        :param qa_pairs: List of question-answer pairs.
+        :return: The image and formatted text for visualization.
+        """
+        # Format the question-answer pairs as a single string for display
+        formatted_output = "\n\n".join(qa_pairs)
+
+        return image, formatted_output
