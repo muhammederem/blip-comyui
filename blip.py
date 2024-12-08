@@ -25,9 +25,9 @@ class Blip:
             ).to("cuda")
             Blip._initialized = True
 
-    def ask(self, image_path, question):
+    def ask(self, image, question):
         # Load and convert image to RGB
-        raw_image = Image.open(image_path).convert('RGB')
+        raw_image = image
         # Process image and question into model inputs
         inputs = self.processor(
             raw_image, 
