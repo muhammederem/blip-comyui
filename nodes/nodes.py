@@ -1,41 +1,45 @@
 from ..blip import Blip
 
-
 class BlipNode:
 
     @classmethod
     def INPUT_TYPES(cls):
-        return { "required" : {
-            "image_path": ("IMAGE", {"multiline": False, "default": "image.jpg"}),
-            "question": ("STRING", {"multiline": False, "default": "image.jpg"})
-        },
-        "optional": 
-        {"question_1": ("STRING", {"multiline": False, "default": "image.jpg"}),
-         "question_2": ("STRING", {"multiline": False, "default": "image.jpg"}),
-            "question_3": ("STRING", {"multiline": False, "default": "image.jpg"}),
-            "question_4": ("STRING", {"multiline": False, "default": "image.jpg"}),
-            "question_5": ("STRING", {"multiline": False, "default": "image.jpg"}),
-            "question_6": ("STRING", {"multiline": False, "default": "image.jpg"}),
-            "question_7": ("STRING", {"multiline": False, "default": "image.jpg"}),
-            "question_8": ("STRING", {"multiline": False, "default": "image.jpg"}),
-            "question_9": ("STRING", {"multiline": False, "default": "image.jpg"}),
-            "question_10": ("STRING", {"multiline": False, "default": "image.jpg"}),
-       }}
+        return {
+            "required": {
+                "blip_model": ("STRING", {"multiline": False, "default": "blip_base"}),  # Model selector
+                "image": ("IMAGE", {"multiline": False}),  # Image input directly
+                "question": ("STRING", {"multiline": False, "default": "What is in the image?"}),
+            },
+            "optional": {
+                "additional_questions": ("STRING_LIST", {"multiline": True, "default": []}),  # List of additional questions
+            },
+        }
 
-
-    RETURN_TYPES = ("STRING",)
+    RETURN_TYPES = ("LIST_STRING",)
     FUNCTION = "process"
     OUTPUT_NODE = True
     CATEGORY = "Blip"
 
-    def process(self, image_path, question, question_1=None, question_2=None, question_3=None, question_4=None, question_5=None, question_6=None, question_7=None, question_8=None, question_9=None, question_10=None):
-        blip = Blip()
-        answers = blip.ask(image_path, question)
-        
-        optional_questions = [question_1, question_2, question_3, question_4, question_5, question_6, question_7, question_8, question_9, question_10]
-        for q in optional_questions:
-            if q:
-                answers += blip.ask(image_path, q)
-        
-        return (answers)
+    def process(self, blip_model, image, question, additional_questions=None):
+        """
+        Process the image with the BLIP model and answer the questions.
 
+        :param blip_model: Name of the BLIP model to use (e.g., "blip_base").
+        :param image: The image input (as binary or object).
+        :param question: The primary question to ask.
+        :param additional_questions: A list of additional questions (optional).
+        :return: A list of answers (strings).
+        """
+        # Initialize the selected BLIP model
+        blip = Blip(model_name=blip_model)
+
+        # Answer the primary question
+        answers = [blip.ask(image, question)]
+
+        # Process additional questions if provided
+        if additional_questions:
+            for q in additional_questions:
+                if q.strip():  # Skip empty questions
+                    answers.append(blip.ask(image, q.strip()))
+
+        return answers
