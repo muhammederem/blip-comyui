@@ -47,6 +47,7 @@ class BlipProcessorNode:
         for q in questions:
             answer = blip.ask(image, q)
             question_answer_pairs.append(f"Q: {q}\nA: {answer}")
+        print(question_answer_pairs)
 
         return (question_answer_pairs,)
 
