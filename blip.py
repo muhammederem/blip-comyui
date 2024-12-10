@@ -1,5 +1,3 @@
-import torch
-from PIL import Image
 from transformers import AutoProcessor, BlipForQuestionAnswering
 
 class Blip:
@@ -25,8 +23,6 @@ class Blip:
             Blip._initialized = True
 
     def ask(self, image, question):
-        breakpoint()
-        # Load and convert image to RGB
         # Process image and question into model inputs
         inputs = self.processor(
             image, 

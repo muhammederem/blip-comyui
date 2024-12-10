@@ -3,6 +3,31 @@ from PIL import Image
 import argparse
 
 def test_blip_with_questions(blip=None, image_path1="image1.webp", image_path2="images.jpeg", questions1=None, questions2=None):
+    """
+    Test the BLIP (Bootstrapped Language-Image Pre-training) model with a set of questions for two images.
+
+    Args:
+        blip (Blip, optional): An instance of the Blip model. If None, a new instance will be created. Defaults to None.
+        image_path1 (str, optional): The file path to the first image. Defaults to "image1.webp".
+        image_path2 (str, optional): The file path to the second image. Defaults to "images.jpeg".
+        questions1 (list of str, optional): A list of questions to ask about the first image. Defaults to None.
+        questions2 (list of str, optional): A list of questions to ask about the second image. Defaults to None.
+
+    Returns:
+        None
+
+    Raises:
+        None
+
+    Example:
+        test_blip_with_questions(
+            blip=my_blip_instance,
+            image_path1="path/to/first_image.jpg",
+            image_path2="path/to/second_image.jpg",
+            questions1=["What is in the image?", "What color is the object?"],
+            questions2=["Is there a person in the image?", "What is the background?"]
+        )
+    """
     if blip is None:
         blip = Blip()
 
