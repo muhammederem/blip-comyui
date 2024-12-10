@@ -80,7 +80,7 @@ class BlipDisplayNode:
         # Format the question-answer pairs as a single string for display
         formatted_output = "\n\n".join(qa_pairs)
 
-        return  formatted_output
+        return  (formatted_output,)
 
 
 # 
