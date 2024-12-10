@@ -39,3 +39,5 @@ class Blip:
         out = self.model.generate(**inputs)
         # Decode and return the answer
         return self.processor.decode(out[0], skip_special_tokens=True)
+
+

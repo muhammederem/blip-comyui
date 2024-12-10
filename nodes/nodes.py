@@ -17,7 +17,7 @@ class BlipProcessorNode:
             },
         }
 
-    RETURN_TYPES = ("LIST_STRING",)  # Output is a list of question-answer pairs
+    RETURN_TYPES = ("LIST_STRING","LIST_STRING",)  # Output is a list of question-answer pairs and a list of answers
     FUNCTION = "process"
     OUTPUT_NODE = False  # Not a terminal node
     CATEGORY = "Blip"
@@ -29,7 +29,7 @@ class BlipProcessorNode:
         :param image: Input image.
         :param question: Mandatory question.
         :param kwargs: Optional questions (question_1 to question_9).
-        :return: List of question-answer pairs as strings.
+        :return: List of question-answer pairs as strings and list of answers as strings.
         """
         # Initialize BLIP model
         blip = Blip()
@@ -41,15 +41,17 @@ class BlipProcessorNode:
 
         # Limit to maximum of 10 questions
         questions = questions[:10]
+        answers = []
 
         # Generate question-answer pairs
         question_answer_pairs = []
         for q in questions:
             answer = blip.ask(image, q)
+            answers.append(answer)
             question_answer_pairs.append(f"Q: {q}\nA: {answer}")
         print(question_answer_pairs)
 
-        return (question_answer_pairs,)
+        return (question_answer_pairs,answers,)
 
 
 class BlipDisplayNode:
@@ -58,12 +60,11 @@ class BlipDisplayNode:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE", {"multiline": False}),  # Input image
                 "qa_pairs": ("LIST_STRING", {"multiline": True}),  # Question-answer pairs from the processor node
             }
         }
 
-    RETURN_TYPES = ("IMAGE", "STRING")  # Output includes the image and formatted QA text
+    RETURN_TYPES = ("STRING")  # Output includes the image and formatted QA text
     FUNCTION = "process"
     OUTPUT_NODE = True  # Terminal node
     CATEGORY = "Blip"
@@ -79,46 +80,7 @@ class BlipDisplayNode:
         # Format the question-answer pairs as a single string for display
         formatted_output = "\n\n".join(qa_pairs)
 
-        return image, formatted_output
+        return  formatted_output
 
 
-# class ShowText:
-#     @classmethod
-#     def INPUT_TYPES(s):
-#         return {
-#             "required": {
-#                 "text": ("STRING", {"forceInput": True}),
-#             },
-#             "hidden": {
-#                 "unique_id": "UNIQUE_ID",
-#                 "extra_pnginfo": "EXTRA_PNGINFO",
-#             },
-#         }
-
-#     INPUT_IS_LIST = True
-#     RETURN_TYPES = ("STRING",)
-#     FUNCTION = "notify"
-#     OUTPUT_NODE = True
-#     OUTPUT_IS_LIST = (True,)
-
-#     CATEGORY = "Blip"
-
-#     def notify(self, text, unique_id=None, extra_pnginfo=None):
-#         if unique_id is not None and extra_pnginfo is not None:
-#             if not isinstance(extra_pnginfo, list):
-#                 print("Error: extra_pnginfo is not a list")
-#             elif (
-#                 not isinstance(extra_pnginfo[0], dict)
-#                 or "workflow" not in extra_pnginfo[0]
-#             ):
-#                 print("Error: extra_pnginfo[0] is not a dict or missing 'workflow' key")
-#             else:
-#                 workflow = extra_pnginfo[0]["workflow"]
-#                 node = next(
-#                     (x for x in workflow["nodes"] if str(x["id"]) == str(unique_id[0])),
-#                     None,
-#                 )
-#                 if node:
-#                     node["widgets_values"] = [text]
-
-#         return {"ui": {"text": text}, "result": (text,)}
+# 
