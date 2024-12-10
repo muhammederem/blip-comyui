@@ -17,7 +17,7 @@ class BlipProcessorNode:
             },
         }
 
-    RETURN_TYPES = ("LIST_STRING","LIST_STRING",)  # Output is a list of question-answer pairs and a list of answers
+    RETURN_TYPES = ("LIST_STRING",)  # Output is a list of question-answer pairs and a list of answers
     FUNCTION = "process"
     OUTPUT_NODE = False  # Not a terminal node
     CATEGORY = "Blip"
@@ -44,43 +44,10 @@ class BlipProcessorNode:
         answers = []
 
         # Generate question-answer pairs
-        question_answer_pairs = []
         for q in questions:
             answer = blip.ask(image, q)
             answers.append(answer)
-            question_answer_pairs.append(f"Q: {q}\nA: {answer}")
-        print(question_answer_pairs)
 
-        return (question_answer_pairs,answers,)
+        return (answers,)
 
 
-class BlipDisplayNode:
-
-    @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "qa_pairs": ("LIST_STRING", {"multiline": True}),  # Question-answer pairs from the processor node
-            }
-        }
-
-    RETURN_TYPES = ("STRING")  # Output includes the image and formatted QA text
-    FUNCTION = "process"
-    OUTPUT_NODE = True  # Terminal node
-    CATEGORY = "Blip"
-
-    def process(self, qa_pairs):
-        """
-        Display the image and formatted QA pairs.
-
-        :param image: Input image.
-        :param qa_pairs: List of question-answer pairs.
-        :return: The image and formatted text for visualization.
-        """
-        # Format the question-answer pairs as a single string for display
-        formatted_output = "\n\n".join(qa_pairs)
-
-        return  (formatted_output,)
-
-
-# 
