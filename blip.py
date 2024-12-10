@@ -1,6 +1,6 @@
 import torch
 from PIL import Image
-from transformers import BlipProcessor, BlipForQuestionAnswering
+from transformers import AutoProcessor, BlipForQuestionAnswering
 
 class Blip:
     # Class variables for singleton pattern
@@ -17,7 +17,7 @@ class Blip:
         # Initialize the model only once
         if not Blip._initialized:
             # Load BLIP processor for image and text processing
-            self.processor = BlipProcessor.from_pretrained("Salesforce/blip-vqa-base")
+            self.processor = AutoProcessor.from_pretrained("Salesforce/blip-vqa-base")
             # Load BLIP model with float16 precision on GPU
             self.model = BlipForQuestionAnswering.from_pretrained(
                 "Salesforce/blip-vqa-base"
@@ -26,10 +26,9 @@ class Blip:
 
     def ask(self, image, question):
         # Load and convert image to RGB
-        raw_image = image
         # Process image and question into model inputs
         inputs = self.processor(
-            raw_image, 
+            image, 
             question, 
             return_tensors="pt"
         ).to("cuda")

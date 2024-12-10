@@ -35,7 +35,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Test BLIP with questions on images.")
     parser.add_argument("--image_path1", type=str, default="image1.webp", help="Path to the first image.")
     parser.add_argument("--image_path2", type=str, default="images.jpeg", help="Path to the second image.")
-    parser.add_argument("--questions1", nargs='+', default=["What is the color of the cars?", "How many cars in there?", "Is there blue car in the image?"], help="List of questions for the first image.")
+    parser.add_argument("--questions1", nargs='+', default=["What are those in the image?", "How many cars in there?", "Is there blue car in the image?"], help="List of questions for the first image.")
     parser.add_argument("--questions2", nargs='+', default=["Is he wearing sunglasses", "How many people in the image?", "What is the man wearing?"], help="List of questions for the second image.")
     
     args = parser.parse_args()
