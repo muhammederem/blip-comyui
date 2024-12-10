@@ -1,4 +1,5 @@
 from ..blip import Blip  # Import the BLIP model
+from torchvision import transforms as torchvision
 
 class BlipProcessorNode:
 
@@ -31,6 +32,7 @@ class BlipProcessorNode:
         :param kwargs: Optional questions (question_1 to question_9).
         :return: List of question-answer pairs as strings and list of answers as strings.
         """
+        image = torchvision.transforms.functional.to_pil_image(image, mode=None)
         # Initialize BLIP model
         blip = Blip()
 
