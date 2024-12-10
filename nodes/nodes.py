@@ -69,7 +69,7 @@ class BlipDisplayNode:
     OUTPUT_NODE = True  # Terminal node
     CATEGORY = "Blip"
 
-    def process(self, image, qa_pairs):
+    def process(self, qa_pairs):
         """
         Display the image and formatted QA pairs.
 
