@@ -17,10 +17,10 @@ class Blip:
         # Initialize the model only once
         if not Blip._initialized:
             # Load BLIP processor for image and text processing
-            self.processor = BlipProcessor.from_pretrained("ybelkada/blip-vqa-base")
+            self.processor = BlipProcessor.from_pretrained("Salesforce/blip-vqa-base")
             # Load BLIP model with float16 precision on GPU
             self.model = BlipForQuestionAnswering.from_pretrained(
-                "ybelkada/blip-vqa-base", 
+                "Salesforce/blip-vqa-base", 
                 torch_dtype=torch.float16
             ).to("cuda")
             Blip._initialized = True
