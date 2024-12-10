@@ -1,0 +1,243 @@
+{
+  "last_node_id": 17,
+  "last_link_id": 23,
+  "nodes": [
+    {
+      "id": 17,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 269,
+        "1": -40
+      },
+      "size": {
+        "0": 210,
+        "1": 246
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 23
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 4,
+      "type": "LoadImage",
+      "pos": {
+        "0": -249,
+        "1": 344
+      },
+      "size": {
+        "0": 315,
+        "1": 314
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            20,
+            23
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "sensor.jpeg",
+        "image"
+      ]
+    },
+    {
+      "id": 15,
+      "type": "Blip Processor Node",
+      "pos": {
+        "0": 242,
+        "1": 334
+      },
+      "size": {
+        "0": 315,
+        "1": 274
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LIST_STRING",
+          "type": "LIST_STRING",
+          "links": [
+            21
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Blip Processor Node"
+      },
+      "widgets_values": [
+        "is that seem like an electronic object?",
+        "is it animal?",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 16,
+      "type": "List to Text Node",
+      "pos": {
+        "0": 658,
+        "1": 330
+      },
+      "size": {
+        "0": 214.20001220703125,
+        "1": 26
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "list",
+          "type": "LIST_STRING",
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            22
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "List to Text Node"
+      }
+    },
+    {
+      "id": 1,
+      "type": "ShowText|pysssss",
+      "pos": {
+        "0": 1031,
+        "1": 360
+      },
+      "size": [
+        428.02700000000004,
+        114.36199999999985
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 22,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "yes\nno"
+      ]
+    }
+  ],
+  "links": [
+    [
+      20,
+      4,
+      0,
+      15,
+      0,
+      "IMAGE"
+    ],
+    [
+      21,
+      15,
+      0,
+      16,
+      0,
+      "LIST_STRING"
+    ],
+    [
+      22,
+      16,
+      0,
+      1,
+      0,
+      "STRING"
+    ],
+    [
+      23,
+      4,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.8264462809917354,
+      "offset": [
+        457.8799000000001,
+        181.16260000000023
+      ]
+    }
+  },
+  "version": 0.4
+}
