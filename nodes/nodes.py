@@ -43,10 +43,10 @@ class BlipProcessorNode:
         questions = questions[:10]
         answers = []
 
-        # Generate question-answer pairs
         for q in questions:
             answer = blip.ask(image, q)
             answers.append(answer)
+            print(f"Q: {q}\nA: {answer}")
 
         return (answers,)
 
@@ -77,4 +77,4 @@ class ListToTextNode:
         """
         return "\n".join(list)
     
-    
+
