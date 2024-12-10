@@ -51,3 +51,30 @@ class BlipProcessorNode:
         return (answers,)
 
 
+class ListToTextNode:
+    
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "list": ("LIST_STRING", {"multiline": True}),  # List of strings
+            },
+            "optional": {},
+        }
+    
+    RETURN_TYPES = ("STRING",)  # Output is a single string
+    FUNCTION = "process"
+    OUTPUT_NODE = True  # Terminal node
+    CATEGORY = "Blip"
+
+    def process(self, list, **kwargs):
+        """
+        Convert a list of strings to a single text.
+
+        :param list: List of strings.
+        :param kwargs: Optional arguments.
+        :return: Single text.
+        """
+        return "\n".join(list)
+    
+    
