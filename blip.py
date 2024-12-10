@@ -20,8 +20,7 @@ class Blip:
             self.processor = BlipProcessor.from_pretrained("Salesforce/blip-vqa-base")
             # Load BLIP model with float16 precision on GPU
             self.model = BlipForQuestionAnswering.from_pretrained(
-                "Salesforce/blip-vqa-base", 
-                torch_dtype=torch.float16
+                "Salesforce/blip-vqa-base"
             ).to("cuda")
             Blip._initialized = True
 
@@ -33,7 +32,7 @@ class Blip:
             raw_image, 
             question, 
             return_tensors="pt"
-        ).to("cuda", torch.float16)
+        ).to("cuda")
         
         # Generate answer using the model
         out = self.model.generate(**inputs)
