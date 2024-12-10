@@ -75,6 +75,7 @@ class ListToTextNode:
         :param kwargs: Optional arguments.
         :return: Single text.
         """
+        print(f"List: {list}")
         return "\n".join(list)
     
 
