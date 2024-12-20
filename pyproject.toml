@@ -1,0 +1,15 @@
+[project]
+name = "blip-comfyui"
+description = "A Python implementation for integrating the BLIP (Bootstrapping Language-Image Pre-training) model for visual question answering."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["Pillow==11.0.0", "torchvision==0.16.2", "transformers==4.44.0"]
+
+[project.urls]
+Repository = "https://github.com/muhammederem/blip-comfyui"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "blip-comfyui"
+Icon = ""
